@@ -78,6 +78,15 @@ def show_pokemon(request, pokemon_id):
                 entity.lon,
                 img_url
             )
+    if requested_pokemon.previous_evolution:
+        ancestor = requested_pokemon.previous_evolution
+        ancestor_data = {
+            "pokemon_id": ancestor.id,
+            "title_ru": ancestor.title,
+            "img_url": request.build_absolute_uri(ancestor.image.url),
+        }
+    else:
+        ancestor_data = None
     pokemon_data = {
         "pokemon_id": requested_pokemon.id,
         "title_ru": requested_pokemon.title,
@@ -85,6 +94,7 @@ def show_pokemon(request, pokemon_id):
         "title_jpn": requested_pokemon.title_jpn or "",
         "img_url": request.build_absolute_uri(requested_pokemon.image.url),
         "description": requested_pokemon.description or "",
+        "previous_evolution":ancestor_data,
     }
 
     return render(request, 'pokemon.html', context={
