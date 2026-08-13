@@ -81,10 +81,10 @@ def show_pokemon(request, pokemon_id):
     pokemon_data = {
         "pokemon_id": requested_pokemon.id,
         "title_ru": requested_pokemon.title,
-        "title_en": requested_pokemon.title_eng,
-        "title_jpn": requested_pokemon.title_jpn,
+        "title_en": requested_pokemon.title_eng or "",
+        "title_jpn": requested_pokemon.title_jpn or "",
         "img_url": request.build_absolute_uri(requested_pokemon.image.url),
-        "description": requested_pokemon.description,
+        "description": requested_pokemon.description or "",
     }
 
     return render(request, 'pokemon.html', context={
