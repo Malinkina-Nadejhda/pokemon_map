@@ -1,8 +1,11 @@
 from django.db import models
-import datetime# noqa F401
+import datetime  # noqa F401
+
 
 class Pokemon(models.Model):
     title = models.CharField(max_length=200)
+    title_eng = models.CharField(max_length=200, null=True, blank=True)
+    title_jpn = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(null=True, blank=True, upload_to="pokemon")
     description = models.TextField(null=True, blank=True)
 
@@ -26,6 +29,3 @@ class PokemonEntity(models.Model):
 
     def __str__(self):
         return self.pokemon.title
-
-    
-
