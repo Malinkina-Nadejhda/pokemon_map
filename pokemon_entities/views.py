@@ -7,7 +7,6 @@ from .models import Pokemon, PokemonEntity
 from django.utils.timezone import localtime
 from django.shortcuts import get_object_or_404
 
-
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
     'https://vignette.wikia.nocookie.net/pokemon/images/6/6e/%21.png/revision'
@@ -87,6 +86,16 @@ def show_pokemon(request, pokemon_id):
         }
     else:
         ancestor_data = None
+    next_evolution_pokemon = requested_pokemon.next_evolution.first()
+    if next_evolution_pokemon:
+        descendant_data = {
+            "pokemon_id": next_evolution_pokemon.id,
+            "title_ru": next_evolution_pokemon.title,
+            "img_url": request.build_absolute_uri(next_evolution_pokemon.image.url),
+        }
+    else:
+        descendant_data = None
+
     pokemon_data = {
         "pokemon_id": requested_pokemon.id,
         "title_ru": requested_pokemon.title,
@@ -94,7 +103,8 @@ def show_pokemon(request, pokemon_id):
         "title_jpn": requested_pokemon.title_jpn or "",
         "img_url": request.build_absolute_uri(requested_pokemon.image.url),
         "description": requested_pokemon.description or "",
-        "previous_evolution":ancestor_data,
+        "previous_evolution": ancestor_data,
+        "next_evolution": descendant_data,
     }
 
     return render(request, 'pokemon.html', context={
