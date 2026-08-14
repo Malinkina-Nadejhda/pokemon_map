@@ -20,8 +20,6 @@ class Pokemon(models.Model):
         verbose_name="Имя на японском",
     )
     image = models.ImageField(
-        null=True,
-        blank=True,
         upload_to="pokemon",
         verbose_name="Изображение"
     )
