@@ -78,23 +78,23 @@ def show_pokemon(request, pokemon_id):
                 img_url
             )
     if requested_pokemon.previous_evolution:
-        ancestor = requested_pokemon.previous_evolution
-        ancestor_data = {
-            "pokemon_id": ancestor.id,
-            "title_ru": ancestor.title,
-            "img_url": request.build_absolute_uri(ancestor.image.url),
+        previous_pokemon = requested_pokemon.previous_evolution
+        previous_pokemon_data = {
+            "pokemon_id": previous_pokemon.id,
+            "title_ru": previous_pokemon.title,
+            "img_url": request.build_absolute_uri(previous_pokemon.image.url),
         }
     else:
-        ancestor_data = None
+        previous_pokemon_data = None
     next_evolution_pokemon = requested_pokemon.next_evolutions.first()
     if next_evolution_pokemon:
-        descendant_data = {
+        next_pokemon_data = {
             "pokemon_id": next_evolution_pokemon.id,
             "title_ru": next_evolution_pokemon.title,
             "img_url": request.build_absolute_uri(next_evolution_pokemon.image.url),
         }
     else:
-        descendant_data = None
+        next_pokemon_data = None
 
     pokemon_data = {
         "pokemon_id": requested_pokemon.id,
@@ -103,8 +103,8 @@ def show_pokemon(request, pokemon_id):
         "title_jp": requested_pokemon.title_jpn,
         "img_url": request.build_absolute_uri(requested_pokemon.image.url),
         "description": requested_pokemon.description,
-        "previous_evolution": ancestor_data,
-        "next_evolution": descendant_data,
+        "previous_evolution": previous_pokemon_data,
+        "next_evolution": next_pokemon_data,
     }
 
     return render(request, 'pokemon.html', context={
