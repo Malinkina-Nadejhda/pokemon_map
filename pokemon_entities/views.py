@@ -99,10 +99,10 @@ def show_pokemon(request, pokemon_id):
     pokemon_data = {
         "pokemon_id": requested_pokemon.id,
         "title_ru": requested_pokemon.title,
-        "title_en": requested_pokemon.title_eng or "",
-        "title_jp": requested_pokemon.title_jpn or "",
+        "title_en": requested_pokemon.title_eng,
+        "title_jp": requested_pokemon.title_jpn,
         "img_url": request.build_absolute_uri(requested_pokemon.image.url),
-        "description": requested_pokemon.description or "",
+        "description": requested_pokemon.description,
         "previous_evolution": ancestor_data,
         "next_evolution": descendant_data,
     }
